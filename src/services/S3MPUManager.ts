@@ -47,7 +47,7 @@ export class S3MPUManager {
 
     this.uploadParts.push({
       ETag,
-      PartNumber: this.partNumber
+      PartNumber: this.partNumber,
     });
     this.partNumber++;
   }

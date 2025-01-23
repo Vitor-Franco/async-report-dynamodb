@@ -67,6 +67,6 @@ export async function handler(event: SQSEvent) {
       Clique <a href="${presignedUrl}">aqui</a> para baixar ou acessar a URL: ${presignedUrl}.
       <br/><br/>
       <small>Este link é válido por apenas 24 horas.</small>
-    `
+    `,
   });
 }

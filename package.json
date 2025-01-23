@@ -1,28 +1,28 @@
 {
-  "name": "live-039-sls-framework-sqs",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.147",
-    "@types/node": "^22.10.9",
-    "@typescript-eslint/eslint-plugin": "^8.21.0",
-    "@typescript-eslint/parser": "^8.21.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.733.0",
-    "@aws-sdk/client-s3": "^3.734.0",
-    "@aws-sdk/client-sqs": "^3.731.1",
-    "@aws-sdk/s3-request-presigner": "^3.734.0",
-    "@faker-js/faker": "^9.4.0",
-    "resend": "^4.1.1"
-  }
+	"name": "live-039-sls-framework-sqs",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.147",
+		"@types/node": "^22.10.9",
+		"@typescript-eslint/eslint-plugin": "^8.21.0",
+		"@typescript-eslint/parser": "^8.21.0",
+		"eslint": "^8.57.0",
+		"typescript": "^5.7.3"
+	},
+	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.733.0",
+		"@aws-sdk/client-s3": "^3.734.0",
+		"@aws-sdk/client-sqs": "^3.731.1",
+		"@aws-sdk/s3-request-presigner": "^3.734.0",
+		"@faker-js/faker": "^9.4.0",
+		"resend": "^4.1.1"
+	}
 }
