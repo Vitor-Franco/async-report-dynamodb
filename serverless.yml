@@ -1,0 +1,78 @@
+org: org
+service: sls-report-async
+
+useDotEnv: true # load from local .env
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 128
+  environment:
+    DYNAMO_LEADS_TABLE: !Ref LeadsTable # Função que faz referência ao ID físico.
+    GENERATE_REPORT_QUEUE_URL: !Ref GenerateReportQueue
+    REPORTS_BUCKET_NAME: !Ref ReportsBucket
+    RESEND_API_KEY: ${env:RESEND_API_KEY} # load env from environment
+  iam:
+    role:
+      statements:
+        # DynamoDB
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:Scan
+          Resource: !GetAtt LeadsTable.Arn # Função que retorna atributos de recursos
+        # SQS
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: !GetAtt GenerateReportQueue.Arn
+        # S3
+        - Effect: Allow
+          Action:
+            - s3:AbortMultipartUpload
+            - s3:PutObject
+            - s3:GetObject
+          Resource:
+           - !GetAtt ReportsBucket.Arn # Caso fosse necessário as permissões no bucket também
+           - !Join ['/', [!GetAtt ReportsBucket.Arn, '*']] # É necessário liberar acesso a todos os objects do bucket via /*. (!Join [separator, [...items]])
+
+package:
+  individually: true # configura cada função para ser empacotada individualmente
+
+build:
+  esbuild:
+    bundle: true # busca todas as dependencias dos arquivos e impacota junto em 1 só arquivo
+    minify: true
+    sourcemap: false
+    exclude:
+      - '@aws-sdk/*'
+
+functions:
+  populateDynamo:
+    handler: src/functions/http/populateDynamo.handler
+    timeout: 25
+    events:
+      - httpApi:
+          path: /populate-dynamo
+          method: POST
+
+  generateReport:
+    handler: src/functions/http/generateReport.handler
+    events:
+      - httpApi:
+          path: /generate-report
+          method: POST
+
+  processReport:
+    handler: src/functions/queues/processReport.handler
+    timeout: 180
+    memorySize: 512
+    events:
+      - sqs:
+          arn: !GetAtt GenerateReportQueue.Arn
+          batchSize: 1 # Pois iremos processar UMA solitação de report por vez
+
+resources:
+  - ${file(./resources/dynamodb/LeadsTable.yml)}
+  - ${file(./resources/sqs/GenerateReportQueue.yml)}
+  - ${file(./resources/s3/ReportsBucket.yml)}
