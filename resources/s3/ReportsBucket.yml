@@ -4,7 +4,7 @@ Resources:
     Properties:
       BucketName: live-039-reports-bucket
       LifecycleConfiguration:
-        Rules:
+        Rules: # Define regras de lifecycle para os arquivos serem deletados
           - Id: auto-delete-after-1-day
             Status: Enabled
             ExpirationInDays: 1

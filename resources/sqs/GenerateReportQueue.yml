@@ -3,11 +3,11 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: GenerateReport
-      ReceiveMessageWaitTimeSeconds: 20
-      VisibilityTimeout: 180
+      ReceiveMessageWaitTimeSeconds: 20 # Permite o long polling
+      VisibilityTimeout: 180 # Após 1 item ser consumido, quanto tempo para visibilidade voltar para visible caso n seja removido
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt GenerateReportDLQ.Arn
-        maxReceiveCount: 2
+        maxReceiveCount: 2 # Tentativas
 
   GenerateReportDLQ:
     Type: AWS::SQS::Queue

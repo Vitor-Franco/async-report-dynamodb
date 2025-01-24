@@ -2,7 +2,7 @@ import { paginateScan } from '@aws-sdk/client-dynamodb';
 import { dynamoClient } from '../../clients/dynamoClient';
 import { env } from '../../config/env';
 
-// scanLeadsTable() -> Internal implementation with AsyncGenerators
+// scanLeadsTable() -> Implementação interna para buscar items no dynamodb
 export function getLeadsGenerator() {
   const paginator = paginateScan(
     { client: dynamoClient },
